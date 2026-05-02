@@ -17,6 +17,10 @@ Baby's Path is a comprehensive developmental milestone tracker designed to help 
 - **Backend/Database:** Firebase Firestore
 - **Authentication:** Firebase Auth
 
+## Live App
+You can use the live, hosted version of this application on Google Cloud Run here:
+[Baby's Path - Live App](https://baby-s-path-82373469617.us-west1.run.app)
+
 ## Getting Started
 
 1. Clone this repository.
