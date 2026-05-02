@@ -1,0 +1,54 @@
+{
+  "firestore": {
+    "/artifacts/{appId}/public/data/completions/{completionId}": {
+      "schema": "Completion",
+      "description": "Stores the completion status of a given task for a baby applet."
+    },
+    "/telemetry/{eventId}": {
+      "schema": "TelemetryEvent",
+      "description": "Stores telemetry events for analytics."
+    }
+  },
+  "entities": {
+    "Completion": {
+      "title": "Completion",
+      "description": "Represents whether a task is completed.",
+      "type": "object",
+      "properties": {
+        "completed": {
+          "type": "boolean"
+        },
+        "updatedBy": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "completed",
+        "updatedBy",
+        "updatedAt"
+      ]
+    },
+    "TelemetryEvent": {
+      "title": "TelemetryEvent",
+      "description": "Represents an analytics event.",
+      "type": "object",
+      "properties": {
+        "eventName": { "type": "string" },
+        "userId": { "type": "string" },
+        "sessionName": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "metadata": { "type": "string" }
+      },
+      "required": [
+        "eventName",
+        "userId",
+        "sessionName",
+        "timestamp",
+        "metadata"
+      ]
+    }
+  }
+}

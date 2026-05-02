@@ -1,0 +1,59 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 0. Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Primitive Definition
+    function isValidId(id) { 
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); 
+    }
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+    function isSignedIn() { return request.auth != null; }
+
+    function isValidCompletion(data) {
+      return data.keys().hasAll(['completed', 'updatedBy', 'updatedAt']) 
+        && data.keys().size() == 3
+        && data.completed is bool
+        && data.updatedBy is string && data.updatedBy.size() <= 128 && data.updatedBy == request.auth.uid
+        && data.updatedAt is string && data.updatedAt.size() <= 50; 
+    }
+
+    function isValidTelemetryEvent(data) {
+      return data.keys().hasAll(['eventName', 'userId', 'sessionName', 'timestamp', 'metadata'])
+        && data.keys().size() == 5
+        && data.eventName is string && data.eventName.size() <= 128
+        && data.userId is string && data.userId.size() <= 128 && data.userId == request.auth.uid
+        && data.sessionName is string && data.sessionName.size() <= 256
+        && data.timestamp is string && data.timestamp.size() <= 50
+        && data.metadata is string && data.metadata.size() <= 1024;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && request.auth.token.email == 'benjaminkohner@gmail.com' && request.auth.token.email_verified == true;
+    }
+
+    match /telemetry/{eventId} {
+      allow create: if isSignedIn() && isValidId(eventId) && isValidTelemetryEvent(incoming());
+      allow list, get: if isAdmin();
+    }
+
+    match /artifacts/{appId}/public/data/completions/{completionId} {
+      allow get: if isSignedIn() && isValidId(appId) && isValidId(completionId);
+      allow list: if isSignedIn() && isValidId(appId);
+      
+      allow create: if isSignedIn() 
+        && isValidId(appId) && isValidId(completionId)
+        && isValidCompletion(incoming());
+          
+      allow update: if isSignedIn() 
+        && isValidId(appId) && isValidId(completionId)
+        && isValidCompletion(incoming())
+        && incoming().diff(existing()).affectedKeys().hasOnly(['completed', 'updatedBy', 'updatedAt']);
+    }
+  }
+}
