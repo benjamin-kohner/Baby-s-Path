@@ -1,20 +1,39 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Baby's Path
 
-# Run and deploy your AI Studio app
+Baby's Path is a comprehensive developmental milestone tracker designed to help parents and caregivers monitor their baby's growth and progress over time. 
 
-This contains everything you need to run your app locally.
+## Features
 
-View your app in AI Studio: https://ai.studio/apps/8389cdb3-bdb6-47b4-9a6c-1aec812ebddc
+- **Milestone Tracking:** Keep track of your baby's Athletic, Cognitive, Social, and Fine Motor skills step-by-step from 6 months up to 24 months of age.
+- **Family Sync:** Securely sync your baby's milestones across devices so parents, grandparents, and caregivers can stay up-to-date.
+- **Dynamic Age Calculation:** Enter your baby's birth date, and the app automatically tailors recommended activities and checklists to their exact developmental stage.
+- **Daily Checklist & Goals:** Manage everyday developmental activities via intuitive checklists and monitor long-term goals for upcoming months.
+- **Progress Insights:** Visual tracking helps you see exactly how your baby is progressing on their developmental journey.
 
-## Run Locally
+## Tech Stack
 
-**Prerequisites:**  Node.js
+- **Frontend:** React, TypeScript, Vite
+- **Styling:** Tailwind CSS
+- **Backend/Database:** Firebase Firestore
+- **Authentication:** Firebase Auth
 
+## Getting Started
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+1. Clone this repository.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Set up your Firebase environment variables based on the `.env.example` file:
+   ```bash
+   cp .env.example .env
+   # Add your Firebase credentials to the .env file
+   ```
+4. Run the development server:
+   ```bash
+   npm run dev
+   ```
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
